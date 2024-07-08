@@ -2,7 +2,7 @@
 const player = "p";
 const box = "b";
 const goal = "g";
-const wall = "w";
+
 const bg ="z"
 const t1 = "1"
 const t2 = "2"
@@ -41,28 +41,30 @@ const melody = tune`
 500,
 500: A4^500,
 500: D5~500 + B4/500`
+const bullet = "x"
+const zombie = "a"
 
 
 
 // assign bitmap art to each sprite
 setLegend(
   [ player, bitmap`
-0000000000000000
-0000000000000000
-0000000000000000
-0000033333300000
-0000333333330000
-0003330330333000
-0033332332333300
-0033232332323300
-0033322332233300
-0033333333333300
-0033333333333300
-0002000000002000
-0002000000002000
-0002000000002000
-CC020000000020CC
-C33330000003333C`],
+................
+................
+................
+.....333333.....
+....33333333....
+...3330330333...
+..333323323333..
+..33232332323LL.
+..33322332233L11
+..33333333331111
+..333333333111..
+...2......112...
+...2........2...
+...2........2...
+CC.2........2.CC
+C3333......3333C`],
   [ box, bitmap`
 ................
 ................
@@ -81,39 +83,23 @@ C33330000003333C`],
 ................
 ................`],
   [ goal, bitmap`
-................
-................
-................
-....444444......
-...44....44.....
-...4......4.....
-...4.......4....
-...4.......4....
-...4.......4....
-...44......4....
-....4......4....
-....44....44....
-.....444444.....
-................
-................
-................`],
-  [ wall, bitmap`
 0000000000000000
 0000000000000000
 0000000000000000
-0000000000000000
-0000000000000000
-0000000000000000
-0000000000000000
-0000000000000000
-0000000000000000
-0000000000000000
-0000000000000000
-0000000000000000
-0000000000000000
+0000444444000000
+0004400004400000
+0004000000400000
+0004000000040000
+0004000000040000
+0004000000040000
+0004400000040000
+0000400000040000
+0000440000440000
+0000044444400000
 0000000000000000
 0000000000000000
 0000000000000000`],
+ 
   [ bg, bitmap`
 0000000000000000
 0000000000000000
@@ -199,6 +185,40 @@ C33330000003333C`],
 0002200000000000
 0000220000000000
 0000002220022000`],
+  [ bullet, bitmap`
+................
+................
+................
+................
+................
+................
+................
+................
+................
+L21.............
+................
+................
+................
+................
+................
+................`],
+  [zombie, bitmap`
+........DDD.....
+.....DDD...DD...
+....DD......D...
+....D.......D...
+....D.2.....D...
+...D.......DD...
+...D......DDD...
+...DD.DDDD..DD..
+....DDD......D..
+......D......D2.
+.....2D......D2.
+....22D......D22
+....2.DD....DD..
+.......DDDDDD...
+........D..D....
+.......DD.DD....`],
   
 );
 
@@ -207,16 +227,19 @@ let level = 0; // this tracks the level we are on
 const levels = [
   map`
 1234
-wwww`,
+zzzz`,
   map`
-wzz
-zpz
-zzg`,
+.........
+.........
+p........
+.........
+.........
+.........`,
   map`
-p.wg
-.bw.
-..w.
-..w.`,
+p.zz
+.bg.
+..z.
+..z.`,
   map`
 p...
 ...b
@@ -227,17 +250,17 @@ p...
 .p.
 ...`,
   map`
-p.w.
-.bwg
+p.z.
+.bzg
 ....
 ..bg`
 ];
-
+setBackground(bg)
 // set the map displayed to the current level
-const currentLevel = levels[level];
+let currentLevel = levels[level];
 setMap(currentLevel);
 
-setSolids([ player, box, wall ]); // other sprites cannot go inside of these sprites
+setSolids([ player, box,zombie]); // other sprites cannot go inside of these sprites
 
 // allow certain sprites to push certain other sprites
 setPushables({
@@ -252,9 +275,18 @@ addText("Press I to start", {
   color: color`1`
 })
 onInput("i", () => {
-  level = 0,
+  if (level == 0){
+  level = 1
+  setMap(levels[level]);
   clearText(),
-  playback.end()
+  playback.end()}
+    
+  else{
+    pgpos = getFirst(player)
+    
+    addSprite(pgpos.x + 1,pgpos.y,bullet)
+    
+  }
 });
 
 
@@ -273,6 +305,16 @@ onInput("d", () => {
 onInput("a", () => {
   getFirst(player).x -= 1;
 });
+
+
+// input for enemies
+
+
+function enemyspawn() {
+  const ran =Math.floor(Math.random() * (6 - 1) + 1);
+  console.log(ran)
+  addSprite(8,ran,zombie)
+}
 // input to reset level
 onInput("j", () => {
   const currentLevel = levels[level]; // get the original map of the level
@@ -287,27 +329,10 @@ onInput("j", () => {
 
 // these get run after every input
 afterInput(() => {
-  // count the number of tiles with goals
-  const targetNumber = tilesWith(goal).length;
-  
-  // count the number of tiles with goals and boxes
-  const numberCovered = tilesWith(goal, box).length;
-
-  // if the number of goals is the same as the number of goals covered
-  // all goals are covered and we can go to the next level
-  if (numberCovered === targetNumber) {
-    // increase the current level number
-    level = level + 1;
-
-    const currentLevel = levels[level];
-
-    // make sure the level exists and if so set the map
-    // otherwise, we have finished the last level, there is no level
-    // after the last level
-    if (currentLevel !== undefined) {
-      setMap(currentLevel);
-    } else {
-      addText("you win!", { y: 4, color: color`3` });
-    }
-  }
+  setInterval(function() {
+  // code to be executed repeatedly
+  enemyspawn()
+  getFirst(zombie).x -=1;
+}, 3000);
+  bullet.x += 2
 });
