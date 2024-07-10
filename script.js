@@ -1,7 +1,7 @@
 // define the sprites in our game
 const player = "p";
 const box = "b";
-const goal = "g";
+const street = "g";
 
 const bg ="z"
 const t1 = "1"
@@ -47,6 +47,10 @@ const pihit = tune`
 63.29113924050633: B5/63.29113924050633 + A5/63.29113924050633 + G5/63.29113924050633 + C4~63.29113924050633,
 63.29113924050633: A5/63.29113924050633 + C4~63.29113924050633,
 1898.73417721519`
+const h1 = "5"
+const h2 = "6"
+const h3 = "7"
+const grass = "r"
 
 
 
@@ -86,20 +90,20 @@ C3333......3333C`],
 ...88888888888..
 ................
 ................`],
-  [ goal, bitmap`
+  [ street, bitmap`
+111LLLLL111LLLLL
+111LLLLL111LLLLL
+111LLLLL111LLLLL
+111LLLLL111LLLLL
+111LLLLL111LLLLL
+111LLLLL111LLLLL
+111LLLLL111LLLLL
 0000000000000000
 0000000000000000
 0000000000000000
-0000444444000000
-0004400004400000
-0004000000400000
-0004000000040000
-0004000000040000
-0004000000040000
-0004400000040000
-0000400000040000
-0000440000440000
-0000044444400000
+0000000000000000
+0000000000000000
+0000000000000000
 0000000000000000
 0000000000000000
 0000000000000000`],
@@ -223,6 +227,75 @@ L21.............
 .......DDDDDD...
 ........D..D....
 .......DD.DD....`],
+  [h1, bitmap`
+....00CCCCC.....
+....LLCCCCCC....
+...CLLCCCCCCC...
+..CCCCCCCCCCCC..
+.CCCCCCCCCCCCCC.
+.CCCCCCCCCCCCCC.
+..FFFFFFFFFFFF..
+..FFFFFFFFFFFF..
+..F77FF77FF77F..
+..F77FF77FF77F..
+..FFFFFFFFFFFF..
+..FFFFFFFFFFFF..
+..FFF7FCCF7FFF..
+..FFF7FCCF7FFF..
+..FFFFFCCFFFFF..
+..000000000000..`],
+  [h2, bitmap`
+......CCCCC.....
+.....CCCCCCC....
+....CCCCCCCCC...
+.....0000000....
+.....0FFFFF0....
+.....0F7F7F0....
+..C..0FFFFF0....
+.CCC.0F7F7F0....
+CCCCC0FFFFF0....
+CCCCC0FFFFF0.CC.
+000000FFFFF0CCCC
+FFFFF0FFFFF00000
+FFFFF0FFFFF0FFFF
+FFFFF0FFCFF0FFFF
+FCCFF0FFCFF0FCCF
+FCCFF0FFCFF0FCCF`],
+  [h3, bitmap`
+................
+....00000000....
+...00CCCCCC00...
+..00CCCCCCCC00..
+.00CCCCCCCCCC00.
+00CCCCCCCCCCCC00
+0CCCCCCCCCCCCCC0
+0000000000000000
+FFFFFFFFFFFFFFFF
+F77FFF77FF77FF77
+F77FFF77FF77FF77
+FFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFF
+FF7FFFFCCCFFFF7F
+FF7FFFFC0CFFFF7F
+FFFFFFFCCCFFFFFF`],
+  [grass, bitmap`
+DDDDDDDDDDDDDDDD
+DDDDDDDDDDDDDDDD
+DDDDDDDDDD00DDDD
+DDDDDDDDD0000DDD
+DD0DDDDDD0DD0DDD
+D0D0DDDD00DD00DD
+DDDDDDDDDDDDDDDD
+DDDDDDDDDDDDDDDD
+DDDDDDD0DDDD00DD
+DDDDDD00DDD000DD
+DDDDDD0D0DDDDDDD
+DDDDD0DD0DDDDDDD
+DDDDDDDD00DDDDDD
+DDDDDDDDDDDDDDDD
+D0D0DDDDDDDDDDDD
+DDDDDDDDDDDDDDDD`],
+  
   
 );
 
@@ -233,20 +306,22 @@ const levels = [
 1234
 zzzz`,
   map`
-.........
-.........
+5rr7r6rr5
+ggggggggg
 p........
 .........
 .........
-.........`,
+.........
+6r56rrr7r`,
   map`
-..........
-..........
-..........
-p.........
-..........
-..........
-..........`,
+...........
+...........
+...........
+...........
+p..........
+...........
+...........
+...........`,
   map`
 p...
 ...b
@@ -267,7 +342,7 @@ setBackground(bg)
 let currentLevel = levels[level];
 setMap(currentLevel);
 
-setSolids([ player, box,zombie]); // other sprites cannot go inside of these sprites
+setSolids([ player, box,h1,h2,h3,grass]); // other sprites cannot go inside of these sprites
 let score = 0
 // allow certain sprites to push certain other sprites
 setPushables({
