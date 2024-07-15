@@ -1,8 +1,8 @@
 // define the sprites in our game
 const player = "p";
 const box = "b";
-const street = "g";
-
+const street1 = "g";
+const street2 = "v"
 const bg ="z"
 const t1 = "1"
 const t2 = "2"
@@ -90,7 +90,7 @@ C3333......3333C`],
 ...88888888888..
 ................
 ................`],
-  [ street, bitmap`
+  [ street1, bitmap`
 111LLLLL111LLLLL
 111LLLLL111LLLLL
 111LLLLL111LLLLL
@@ -107,6 +107,23 @@ C3333......3333C`],
 0000000000000000
 0000000000000000
 0000000000000000`],
+  [ street2, bitmap`
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+111LLLLL111LLLLL
+111LLLLL111LLLLL
+111LLLLL111LLLLL
+111LLLLL111LLLLL
+111LLLLL111LLLLL
+111LLLLL111LLLLL
+111LLLLL111LLLLL`],
  
   [ bg, bitmap`
 0000000000000000
@@ -211,50 +228,50 @@ L21.............
 ................
 ................`],
   [zombie, bitmap`
-........DDD.....
-.....DDD...DD...
-....DD......D...
-....D.......D...
-....D.2.....D...
-...D.......DD...
-...D......DDD...
-...DD.DDDD..DD..
-....DDD......D..
-......D......D2.
-.....2D......D2.
-....22D......D22
-....2.DD....DD..
-.......DDDDDD...
-........D..D....
-.......DD.DD....`],
+.....44444......
+.....44444......
+.....44444......
+.....44444......
+................
+................
+................
+................
+................
+................
+................
+................
+................
+................
+................
+................`],
   [h1, bitmap`
-....00CCCCC.....
-....LLCCCCCC....
-...CLLCCCCCCC...
-..CCCCCCCCCCCC..
-.CCCCCCCCCCCCCC.
-.CCCCCCCCCCCCCC.
-..FFFFFFFFFFFF..
-..FFFFFFFFFFFF..
-..F77FF77FF77F..
-..F77FF77FF77F..
-..FFFFFFFFFFFF..
-..FFFFFFFFFFFF..
-..FFF7FCCF7FFF..
-..FFF7FCCF7FFF..
-..FFFFFCCFFFFF..
-..000000000000..`],
+DDDD00CCCCCDDDDD
+DDDDLLCCCCCCDDDD
+DDDCLLCCCCCCCDDD
+DDCCCCCCCCCCCCDD
+DCCCCCCCCCCCCCCD
+DCCCCCCCCCCCCCCD
+DDFFFFFFFFFFFFDD
+DDFFFFFFFFFFFFDD
+DDF77FF77FF77FDD
+DDF77FF77FF77FDD
+DDFFFFFFFFFFFFDD
+DDFFFFFFFFFFFFDD
+DDFFF7FCCF7FFFDD
+DDFFF7FCCF7FFFDD
+DDFFFFFCCFFFFFDD
+DD000000000000DD`],
   [h2, bitmap`
-......CCCCC.....
-.....CCCCCCC....
-....CCCCCCCCC...
-.....0000000....
-.....0FFFFF0....
-.....0F7F7F0....
-..C..0FFFFF0....
-.CCC.0F7F7F0....
-CCCCC0FFFFF0....
-CCCCC0FFFFF0.CC.
+DDDDDDCCCCCDDDDD
+DDDDDCCCCCCCDDDD
+DDDDCCCCCCCCCDDD
+DDDDD0000000DDDD
+DDDDD0FFFFF0DDDD
+DDDDD0F7F7F0DDDD
+DDCDD0FFFFF0DDDD
+DCCCD0F7F7F0DDDD
+CCCCC0FFFFF0DDDD
+CCCCC0FFFFF0DCCD
 000000FFFFF0CCCC
 FFFFF0FFFFF00000
 FFFFF0FFFFF0FFFF
@@ -262,11 +279,11 @@ FFFFF0FFCFF0FFFF
 FCCFF0FFCFF0FCCF
 FCCFF0FFCFF0FCCF`],
   [h3, bitmap`
-................
-....00000000....
-...00CCCCCC00...
-..00CCCCCCCC00..
-.00CCCCCCCCCC00.
+DDDDDDDDDDDDDDDD
+DDDD00000000DDDD
+DDD00CCCCCC00DDD
+DD00CCCCCCCC00DD
+D00CCCCCCCCCC00D
 00CCCCCCCCCCCC00
 0CCCCCCCCCCCCCC0
 0000000000000000
@@ -311,7 +328,7 @@ ggggggggg
 p........
 .........
 .........
-.........
+vvvvvvvvv
 6r56rrr7r`,
   map`
 ...........
@@ -445,17 +462,20 @@ setInterval(() => {
 // for score text
 setInterval(() => {
   if (score != 0){
-    addText(`Score: ${score}`,3,9)
+    addText(`Score: ${score}`,{color:color`3`})
   }
   else{
+    
   }
 }, 30)
 
 setInterval(() => {
   if (score == 20){
+    score = 0
     level+= 1
     setMap(levels[level]);
-    score = 0
+    clearText()
+    
   }
   else{
   }
