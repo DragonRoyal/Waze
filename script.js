@@ -1,6 +1,6 @@
 // define the sprites in our game
-const player = "p";
-const box = "b";
+const pistol = "p";
+
 const street1 = "g";
 const street2 = "v"
 const bg ="z"
@@ -41,9 +41,9 @@ const melody = tune`
 500,
 500: A4^500,
 500: D5~500 + B4/500`
-const bullet = "x"
-const zombie = "a"
-const pihit = tune`
+const bullet1 = "x"
+const zombie1 = "a"
+const hit1 = tune`
 63.29113924050633: B5/63.29113924050633 + A5/63.29113924050633 + G5/63.29113924050633 + C4~63.29113924050633,
 63.29113924050633: A5/63.29113924050633 + C4~63.29113924050633,
 1898.73417721519`
@@ -51,12 +51,23 @@ const h1 = "5"
 const h2 = "6"
 const h3 = "7"
 const grass = "r"
-
+const tile = "t"
+const q1 = "8"
+const q2 = "9"
+const q3 = "0"
+const shotgun = "c"
+const zombie2 = "n"
+const tile1 = "b"
+const hit2 = tune`
+184.04907975460122: E4~184.04907975460122 + D4~184.04907975460122 + F5-184.04907975460122 + A4-184.04907975460122,
+184.04907975460122: D4~184.04907975460122 + G4/184.04907975460122 + A4/184.04907975460122 + E5^184.04907975460122,
+5521.472392638037`
+const bullet2 = "l"
 
 
 // assign bitmap art to each sprite
 setLegend(
-  [ player, bitmap`
+  [ pistol, bitmap`
 ................
 ................
 ................
@@ -73,41 +84,7 @@ setLegend(
 ...2........2...
 CC.2........2.CC
 C3333......3333C`],
-  [ box, bitmap`
-................
-................
-................
-...88888888888..
-...8....8....8..
-...8....8....8..
-...8....8....8..
-...8....8....8..
-...88888888888..
-...8....8....8..
-...8....8....8..
-...8....8....8..
-...8....8....8..
-...88888888888..
-................
-................`],
-  [ street1, bitmap`
-111LLLLL111LLLLL
-111LLLLL111LLLLL
-111LLLLL111LLLLL
-111LLLLL111LLLLL
-111LLLLL111LLLLL
-111LLLLL111LLLLL
-111LLLLL111LLLLL
-0000000000000000
-0000000000000000
-0000000000000000
-0000000000000000
-0000000000000000
-0000000000000000
-0000000000000000
-0000000000000000
-0000000000000000`],
-  [ street2, bitmap`
+  [street1,bitmap`
 0000000000000000
 0000000000000000
 0000000000000000
@@ -124,6 +101,23 @@ C3333......3333C`],
 111LLLLL111LLLLL
 111LLLLL111LLLLL
 111LLLLL111LLLLL`],
+  [ street2,bitmap`
+LLLLL111LLLLL111
+LLLLL111LLLLL111
+LLLLL111LLLLL111
+LLLLL111LLLLL111
+LLLLL111LLLLL111
+LLLLL111LLLLL111
+LLLLL111LLLLL111
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000`],
  
   [ bg, bitmap`
 0000000000000000
@@ -210,7 +204,7 @@ C3333......3333C`],
 0002200000000000
 0000220000000000
 0000002220022000`],
-  [ bullet, bitmap`
+  [ bullet1, bitmap`
 ................
 ................
 ................
@@ -227,23 +221,40 @@ L21.............
 ................
 ................
 ................`],
-  [zombie, bitmap`
-.....44444......
-.....44444......
-.....44444......
-.....44444......
+  [ bullet2, bitmap`
 ................
 ................
 ................
 ................
 ................
 ................
+.66.............
+6666............
+6666............
+.66.............
 ................
 ................
 ................
 ................
 ................
 ................`],
+  [zombie1, bitmap`
+.......444......
+......44444.....
+......33444.....
+......44444.....
+......44444.....
+.......444......
+.......F4F......
+...44FFFF4......
+.......F4F......
+...44FFFFF......
+.......F4F......
+.......FFF......
+.......F.F......
+.......F.F......
+.......4.4......
+......44.44.....`],
   [h1, bitmap`
 DDDD00CCCCCDDDDD
 DDDDLLCCCCCCDDDD
@@ -312,6 +323,142 @@ DDDDDDDD00DDDDDD
 DDDDDDDDDDDDDDDD
 D0D0DDDDDDDDDDDD
 DDDDDDDDDDDDDDDD`],
+  [tile,bitmap`
+................
+................
+................
+................
+.66666666666666.
+.66666666666666.
+.66666666666666.
+.66666666666666.
+.66666666666666.
+.66666666666666.
+.66666666666666.
+.66666666666666.
+................
+................
+................
+................`],
+  [zombie1, bitmap`
+.......444......
+......44444.....
+......33444.....
+......44444.....
+......44444.....
+.......444......
+.......F4F......
+...44FFFF4......
+.......F4F......
+...44FFFFF......
+.......F4F......
+.......FFF......
+.......F.F......
+.......F.F......
+.......4.4......
+......44.44.....`],
+  [q1, bitmap`
+LL0LLLLLLLLLL0LL
+LL0LLLLLLLLLL0LL
+LL0L7L7L7L7L70LL
+LL0LLLLLLLLLL0LL
+LL0L7L7L7L7L70LL
+LL0LLLLLLLLLL0LL
+LL0L7L7L7L7L70LL
+LL0LLLLLLLLLL0LL
+LL0L7L7L7L7L70LL
+LL0LLLLLLLLLL0LL
+LL0L7L7L7L7L70LL
+LL0LLLLLLLLLL0LL
+LL0L7L7L7L7L70LL
+LL0LLLLLLLLLL0LL
+LL0LLLLFFFLLL0LL
+LL0LLLLFFFLLL0LL`],
+  [q2, bitmap`
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLL00000000LLLL
+LLL0LLLLLLLL0LLL
+LL0LLLLLLLLLL0LL
+L0LLLLLLLLLLLL0L
+0LLLLLLLLLLLLLL0
+0LLLLLLLLLLLLLL0
+1111111111111111
+1771771771771771
+1771771771771771
+1111111111111111
+1771771771771771
+1771771771771771
+1111111111111111`],
+  [q3, bitmap`
+LLLLLLL33LLLLLLL
+LLLLLL0LL0LLLLLL
+LLLLLL0LL0LLLLLL
+LLLLLL0LL0LLLLLL
+LLLLLL0LL0LLLLLL
+LLLLLL0LL0LLLLLL
+03300L0LL0L00330
+LLLL000LL000LLLL
+LLLLLLLLLLLLLLLL
+L777LL7777LL777L
+L777LL7777LL777L
+L777LL7777LL777L
+LLLLLLLLLLLLLLLL
+L777LLLFFFLL777L
+L777LLLFFFLL777L
+LLLLLLLFFFLLLLLL`],
+  [shotgun, bitmap`
+................
+................
+................
+................
+.....44.........
+......4.........
+......4.........
+......4DDDD.....
+......DDDDD.....
+.....4444..3LL33
+....0400403LLLL.
+...4440044L.3...
+...4444444L.3...
+....D...D.......
+..0DD...DD0.....
+..400...004.....`],
+  [ zombie2, bitmap`
+.....5.....5....
+.....5.....5....
+.....55...55....
+.....55C5C55....
+.....5535355....
+.....55C5C55....
+......55555.....
+.......CCC......
+.......C5C......
+....5CCC5C......
+.......CCC......
+....5CCCCC......
+.......55C......
+.......CCCC.....
+.......C5CCCCC..
+.......C5CCCCCCC`],
+  [ tile1, bitmap`
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLL1L1LLLLLLLL
+LLL11L1LLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLL11LL
+LLLLLLLLLLL111LL
+LLLLLLLLLLL1LL1L
+LLLL11LLLLLLLL1L
+LLL11LLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL`],
   
   
 );
@@ -324,46 +471,43 @@ const levels = [
 zzzz`,
   map`
 5rr7r6rr5
-ggggggggg
-p........
-.........
-.........
 vvvvvvvvv
+p........
+t.t.t.t.t
+.........
+ggggggggg
 6r56rrr7r`,
   map`
-...........
-...........
-...........
-...........
-p..........
-...........
-...........
-...........`,
+8b90b8b9bb
+vvvvvvvvvv
+..........
+c.........
+..........
+gggggggggg
+..........`,
   map`
 p...
 ...b
 ...b
 .bbg`,
   map`
-...
-.p.
-...`,
-  map`
-p.z.
-.bzg
-....
-..bg`
+zgz
+ztz
+zvz`,
+
 ];
+let bullet = bullet1
+let hit = hit1
 setBackground(bg)
 // set the map displayed to the current level
 let currentLevel = levels[level];
 setMap(currentLevel);
 
-setSolids([ player, box,h1,h2,h3,grass]); // other sprites cannot go inside of these sprites
+setSolids([ pistol,shotgun,tile1,h1,h2,h3,grass,q1,q2,q3,]); // other sprites cannot go inside of these sprites
 let score = 0
 // allow certain sprites to push certain other sprites
 setPushables({
-  [player]: []
+  [pistol]: []
 });
 
 //title screen
@@ -373,6 +517,8 @@ addText("Press I to start", {
   y: 13,
   color: color`1`
 })
+let zombie = zombie1
+let player = pistol
 onInput("i", () => {
   if (level == 0){
   level = 1
@@ -384,7 +530,7 @@ onInput("i", () => {
     pgpos = getFirst(player)
     
     addSprite(pgpos.x + 1,pgpos.y,bullet)
-    playTune(pihit,1)
+    playTune(hit,1)
     
   }
 });
@@ -438,6 +584,31 @@ setInterval(function() {
   
 }, 1000);
 
+
+setInterval(() => {
+  getAll(zombie).forEach((zombieObj) => {
+    getTile(zombieObj.x, zombieObj.y).forEach((sprite) => {
+      if (sprite.type === player) {
+        // Zombie hit player
+        sprite.remove()
+        zombieObj.remove()
+        level = 4
+        setMap(levels[level]);
+        addText("Wasted...", { 
+  x: 7,
+  y: 4,
+  color: color`3`
+})
+        
+     
+       
+       
+      }
+    })}) 
+}, 400)
+
+
+
   
 setInterval(() => {
   getAll(bullet).forEach((bulletObj) => {
@@ -475,7 +646,10 @@ setInterval(() => {
     level+= 1
     setMap(levels[level]);
     clearText()
-    
+    player = shotgun
+    zombie = zombie2
+    bullet = bullet2
+    hit = hit2
   }
   else{
   }
