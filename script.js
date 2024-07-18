@@ -484,12 +484,12 @@ vvvvvvvvvv
 c.........
 ..........
 gggggggggg
-..........`,
+b0bb980bb8`,
   map`
-p...
-...b
-...b
-.bbg`,
+zpzz
+zzzz
+zczz
+zzzz`,
   map`
 zgz
 ztz
@@ -498,16 +498,22 @@ zvz`,
 ];
 let bullet = bullet1
 let hit = hit1
+let time = 30
+let time2 = 1000
 setBackground(bg)
 // set the map displayed to the current level
 let currentLevel = levels[level];
 setMap(currentLevel);
 
-setSolids([ pistol,shotgun,tile1,h1,h2,h3,grass,q1,q2,q3,]); // other sprites cannot go inside of these sprites
+setSolids([ pistol,shotgun,tile1,h1,h2,h3,grass,q1,q2,q3,street1,street2]); // other sprites cannot go inside of these sprites
 let score = 0
 // allow certain sprites to push certain other sprites
 setPushables({
-  [pistol]: []
+  [pistol]: [],
+  [shotgun]: [],
+  [zombie1]: [],
+  [zombie2]: [],
+  
 });
 
 //title screen
@@ -527,13 +533,22 @@ onInput("i", () => {
   playback.end()}
     
   else{
+    if (level == 2){
+    pgpos = getFirst(player)
+    addSprite(pgpos.x + 1,pgpos.y+1,bullet)
+    addSprite(pgpos.x + 2,pgpos.y,bullet)
+    addSprite(pgpos.x + 1,pgpos.y-1,bullet)
+    playTune(hit,1)} 
+    
+    
+    
+    else{
     pgpos = getFirst(player)
     
     addSprite(pgpos.x + 1,pgpos.y,bullet)
-    playTune(hit,1)
+    playTune(hit,1)}
     
-  }
-});
+  }});
 
 
 
@@ -557,7 +572,7 @@ onInput("a", () => {
 
 
 function enemyspawn() {
-  const ran =Math.floor(Math.random() * (6 - 1) + 1);
+  const ran =Math.floor(Math.random() * (5 - 1) + 1);
   console.log(ran)
   addSprite(8,ran,zombie)
 }
@@ -576,16 +591,18 @@ onInput("j", () => {
 setInterval(function() {
   // code to be executed repeatedly
   enemyspawn()
- 
+  enemyspawn()
   getAll(zombie).forEach((zombie) => {
     zombie.x -= 1
   });
  
   
-}, 1000);
+}, time2);
 
 
 setInterval(() => {
+  try {
+  
   getAll(zombie).forEach((zombieObj) => {
     getTile(zombieObj.x, zombieObj.y).forEach((sprite) => {
       if (sprite.type === player) {
@@ -598,13 +615,18 @@ setInterval(() => {
   x: 7,
   y: 4,
   color: color`3`
-})
+        })
         
      
        
        
       }
     })}) 
+}
+catch(err) {
+  
+}
+
 }, 400)
 
 
@@ -622,12 +644,18 @@ setInterval(() => {
         return;
       }
     })
-    if (bulletObj.x === 8) {
+    if (level == 1)
+    {if (bulletObj.x === 8) {
       bulletObj.remove();
-    }
+    }}
+    else{
+      if (bulletObj.x === getFirst(player).x + 3 || bulletObj.x === 9 ) {
+      bulletObj.remove();
+    }}
     bulletObj.x += 1
+    
   }) 
-}, 30)
+}, time)
 
 
 // for score text
@@ -650,10 +678,19 @@ setInterval(() => {
     zombie = zombie2
     bullet = bullet2
     hit = hit2
-  }
+    time = 500
+    time2 = 500  }
   else{
-  }
-}, 30)
+    if (level == 3){
+              addText("You won", { 
+  x: 7,
+  y: 6,
+  color: color`2`
+        })}
+        
+     
+  };
+}, 30);
 
 
 
@@ -664,7 +701,4 @@ setInterval(function() {
   });
 }, 300);
 
-setInterval(function() {
-  // code to be executed repeatedly
-   
-}, 300);
+
